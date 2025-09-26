@@ -1588,6 +1588,60 @@ window.addEventListener('DOMContentLoaded', () => {
 });
 /* ====== /SMARTEL 패치 끝 ====== */
 </script>
+<script>
+/* Autopay: bank/card toggle — make card fields truly optional for 'bank' */
+(function(){
+  var els = {
+    box: document.getElementById('card_fields'),
+    yy:  document.getElementById('card_exp_year'),
+    mm:  document.getElementById('card_exp_month'),
+    exp: document.getElementById('autopay_exp')
+  };
+
+  function clearErr(el){
+    if(!el) return;
+    el.classList && el.classList.remove('is-invalid');
+    var wrap = el.closest('.form-group') || el.parentElement;
+    var hint = wrap && wrap.querySelector('.smartel-err');
+    if (hint) hint.remove();
+  }
+
+  // override/define updater
+  window.updateCardFields = function(){
+    var methodEl = document.querySelector('input[name="autopay_method"]:checked');
+    var isCard = methodEl && methodEl.value === 'card';
+
+    if (els.box) els.box.style.display = isCard ? 'block' : 'none';
+
+    [els.yy, els.mm, els.exp].forEach(function(i){
+      if (!i) return;
+      i.disabled = !isCard;               // <-- 핵심: bank 선택 시 검증/제출 제외
+      if (!isCard) { i.value = ''; clearErr(i); }
+    });
+  };
+
+  // change 시 토글
+  document.addEventListener('change', function(e){
+    if (e.target && e.target.name === 'autopay_method') updateCardFields();
+  }, true);
+
+  // 최초 1회 반영
+  if (document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', updateCardFields);
+  } else {
+    updateCardFields();
+  }
+
+  // 저장/인쇄 직전 YY/MM 합치기(카드일 때만)
+  window.__composeCardExp = function(){
+    var methodEl = document.querySelector('input[name="autopay_method"]:checked');
+    var isCard = methodEl && methodEl.value === 'card';
+    var yy = (els.yy && els.yy.value || '').trim();
+    var mm = (els.mm && els.mm.value || '').trim();
+    if (isCard && els.exp && yy && mm) els.exp.value = yy + '/' + mm;
+  };
+})();
+</script>
   
 </body>
 </html>
