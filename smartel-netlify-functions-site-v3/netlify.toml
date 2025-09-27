@@ -2,6 +2,10 @@
 [build]
   publish = "public"
   functions = "netlify/functions"
+  [[redirects]]
+  from = "/"
+  to = "/index.html"
+  status = 200
 
 # Make sure function responses are cached by the browser as file downloads are short-lived
 [[headers]]
