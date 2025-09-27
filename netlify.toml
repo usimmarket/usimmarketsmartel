@@ -1,8 +1,13 @@
-
 [build]
   publish = "."
   functions = "netlify/functions"
 
 [functions]
   node_bundler = "esbuild"
-  included_files = ["netlify/functions/generate_pdf/template.pdf","netlify/functions/generate_pdf/NotoSansKR.ttf"]
+
+# 필요하면 CORS 헤더
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+
