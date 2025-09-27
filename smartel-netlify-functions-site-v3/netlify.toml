@@ -1,0 +1,11 @@
+
+[build]
+  publish = "public"
+  functions = "netlify/functions"
+
+# Make sure function responses are cached by the browser as file downloads are short-lived
+[[headers]]
+  for = "/pdf-client.js"
+  [headers.values]
+    Cache-Control = "public, max-age=3600"
+
