@@ -1,0 +1,10 @@
+{
+  "name": "generate-pdf",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "@pdf-lib/fontkit": "^1.2.1"
+  }
+}

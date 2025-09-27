@@ -1,0 +1,13 @@
+
+[build]
+  publish = "."
+  command = ""
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  # make sure binary assets are packaged with the function
+  included_files = ["netlify/functions/generate_pdf/template.pdf", "netlify/functions/generate_pdf/NotoSansKR.ttf"]
+
+[build.environment]
+  NODE_VERSION = "18"
